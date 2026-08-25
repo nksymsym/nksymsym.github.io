@@ -9,10 +9,7 @@ export default defineConfig(
   },
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-    ],
+    extends: [js.configs.recommended, tseslint.configs.recommended],
   },
   prettierConfig,
 )
