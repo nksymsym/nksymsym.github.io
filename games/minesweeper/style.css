@@ -1,0 +1,190 @@
+.minesweeper {
+  display: grid;
+  grid-template-columns: minmax(16rem, 27rem) auto;
+  align-items: start;
+  gap: 1.5rem;
+
+  width: fit-content;
+  max-width: 100%;
+  margin: 2rem auto 0;
+  padding: 1rem;
+}
+
+/* ------------------------------
+   左側パネル
+------------------------------ */
+
+.minesweeper__side-panel {
+  display: grid;
+  min-width: 0;
+
+  border: 1px solid #777;
+  border-radius: 0.3rem;
+  overflow: hidden;
+}
+
+/* ------------------------------
+   状況画像エリア
+------------------------------ */
+
+.minesweeper__scene {
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  aspect-ratio: 1;
+
+  background-color: #f7f7f7;
+}
+
+.minesweeper__scene-text {
+  margin: 0;
+  font-weight: bold;
+}
+
+/* ------------------------------
+   ゲーム情報・操作エリア
+------------------------------ */
+
+.minesweeper__controls {
+  display: grid;
+  gap: 0.75rem;
+
+  padding: 1rem;
+
+  border-top: 1px solid #aaa;
+}
+
+.minesweeper__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+
+  font-weight: bold;
+}
+
+.minesweeper__mine-count,
+.minesweeper__flag-count {
+  white-space: nowrap;
+}
+
+.minesweeper__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.minesweeper__control-button {
+  padding: 0.4rem 0.7rem;
+
+  font: inherit;
+  color: inherit;
+
+  cursor: pointer;
+}
+
+.minesweeper__control-button[aria-pressed='true'] {
+  background-color: #d8d8d8;
+}
+
+.minesweeper__control-button:disabled {
+  cursor: default;
+}
+
+/* ------------------------------
+   盤面
+------------------------------ */
+
+.minesweeper__board {
+  --cell-size: clamp(1.75rem, 9.5vw, 2.75rem);
+
+  display: grid;
+  grid-template-columns: repeat(9, var(--cell-size));
+  gap: 2px;
+
+  width: fit-content;
+}
+
+/* ------------------------------
+   マス
+------------------------------ */
+
+.minesweeper__cell {
+  width: var(--cell-size);
+  aspect-ratio: 1;
+
+  padding: 0;
+
+  border: 1px solid #555;
+  border-radius: 0.2rem;
+
+  background-color: #d8d8d8;
+
+  color: inherit;
+  font: inherit;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow:
+    inset 1px 1px 0 #fff,
+    inset -1px -1px 0 #999;
+}
+
+.minesweeper__cell:not(:disabled):hover {
+  background-color: #e2e2e2;
+}
+
+/* 開いたマス */
+
+.minesweeper__cell--revealed {
+  border-color: #aaa;
+
+  background-color: #f7f7f7;
+
+  cursor: default;
+  box-shadow: none;
+}
+
+/* 地雷 */
+
+.minesweeper__cell--mine {
+  background-color: #e8caca;
+}
+
+/* 旗 */
+
+.minesweeper__cell--flagged {
+  background-color: #e5e5e5;
+}
+
+/*
+  開いたマスを disabled にしているため、
+  ブラウザ標準の薄い表示を解除する。
+*/
+.minesweeper__cell:disabled {
+  color: inherit;
+  opacity: 1;
+}
+
+/* ------------------------------
+   スマホ
+------------------------------ */
+
+@media (max-width: 900px) {
+  .minesweeper {
+    grid-template-columns: 1fr;
+
+    width: 100%;
+    padding-inline: 0;
+  }
+
+  .minesweeper__side-panel {
+    width: min(100%, 24rem);
+    margin-inline: auto;
+  }
+
+  .minesweeper__board {
+    margin-inline: auto;
+  }
+}
