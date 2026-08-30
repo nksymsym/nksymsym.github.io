@@ -1,30 +1,129 @@
-.minesweeper {
+:root {
+  /* ページ */
+  --ms-page-bg: #29183d;
+  --ms-page-text: #f8f5fc;
+
+  /* リンク */
+  --ms-link: #ddc7f5;
+  --ms-link-hover: #ffffff;
+
+  /* 画像エリア */
+  --ms-scene-bg: #39234f;
+
+  /* 制御エリア */
+  --ms-controls-bg: #3a2550;
+  --ms-controls-text: #f8f5fc;
+
+  /* ボタン */
+  --ms-button-bg: #f2edf7;
+  --ms-button-text: #271a31;
+  --ms-button-border: #baa8cc;
+  --ms-button-hover-bg: #ffffff;
+  --ms-button-active-bg: #d9c8ea;
+  --ms-focus: #ffd76a;
+
+  /* 盤面 */
+  --ms-board-bg: #3b2652;
+  --ms-board-border: #9c83b7;
+
+  /* 閉じたマス */
+  --ms-cell-closed-bg: #745493;
+  --ms-cell-closed-hover-bg: #8261a1;
+  --ms-cell-closed-border: #aa91c2;
+
+  /* 開いたマス */
+  --ms-cell-open-bg: #f3eff7;
+  --ms-cell-open-text: #251a2e;
+  --ms-cell-open-border: #d2c7dc;
+
+  /* 地雷 */
+  --ms-cell-mine-bg: #efc9d1;
+
+  /* 数字 */
+  --ms-number-1: #2858a0;
+  --ms-number-2: #2f7136;
+  --ms-number-3: #b72d36;
+  --ms-number-4: #65439a;
+  --ms-number-5: #8b4936;
+  --ms-number-6: #28777b;
+  --ms-number-7: #333333;
+  --ms-number-8: #696969;
+}
+
+body {
+  background-color: var(--ms-page-bg);
+  color: var(--ms-page-text);
+}
+
+.game__header {
   display: grid;
-  grid-template-columns: minmax(16rem, 27rem) auto;
-  align-items: start;
-  gap: 1.5rem;
+  gap: 1.25rem;
+}
+
+.game__heading {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.game__title,
+.game__description {
+  margin: 0;
+}
+.game__back-link,
+.game__back-link:visited {
+  justify-self: start;
+
+  color: var(--ms-link);
+
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.game__back-link:hover {
+  color: var(--ms-link-hover);
+}
+
+.game__back-link:focus-visible {
+  outline: 3px solid var(--ms-focus);
+  outline-offset: 3px;
+}
+
+.minesweeper,
+.minesweeper * {
+  box-sizing: border-box;
+}
+
+/* ------------------------------
+   ゲーム全体
+------------------------------ */
+
+.minesweeper {
+  --board-width: 22rem;
+
+  display: grid;
+  grid-template-columns: minmax(20rem, 24rem) var(--board-width);
+  align-items: stretch;
+  gap: 1.25rem;
 
   width: fit-content;
   max-width: 100%;
   margin: 2rem auto 0;
-  padding: 1rem;
 }
 
 /* ------------------------------
-   左側パネル
+   左側
 ------------------------------ */
 
 .minesweeper__side-panel {
-  display: grid;
-  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-  border: 1px solid #777;
-  border-radius: 0.3rem;
-  overflow: hidden;
+  min-width: 0;
 }
 
 /* ------------------------------
-   状況画像エリア
+   画像エリア
 ------------------------------ */
 
 .minesweeper__scene {
@@ -32,77 +131,114 @@
   place-items: center;
 
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 2 / 1;
 
-  background-color: #f7f7f7;
+  overflow: hidden;
+
+  border-radius: 0.5rem;
+
+  background-color: var(--ms-scene-bg);
+  background-image: url('./images/progress_background.webp');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.minesweeper__scene-text {
-  margin: 0;
-  font-weight: bold;
+.minesweeper__scene-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
 }
 
 /* ------------------------------
-   ゲーム情報・操作エリア
+   制御エリア
 ------------------------------ */
 
 .minesweeper__controls {
-  display: grid;
-  gap: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 
-  padding: 1rem;
+  width: 100%;
+  padding: 0.5rem 0.65rem;
 
-  border-top: 1px solid #aaa;
+  border-radius: 0.5rem;
+
+  background-color: var(--ms-controls-bg);
+  color: var(--ms-controls-text);
 }
 
-.minesweeper__status {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
+.minesweeper__mine-count {
+  flex: 0 0 auto;
 
   font-weight: bold;
-}
-
-.minesweeper__mine-count,
-.minesweeper__flag-count {
   white-space: nowrap;
 }
 
-.minesweeper__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
 .minesweeper__control-button {
-  padding: 0.4rem 0.7rem;
+  flex: 0 0 auto;
+
+  padding: 0.4rem 0.65rem;
+
+  border: 1px solid var(--ms-button-border);
+  border-radius: 0.35rem;
+
+  background-color: var(--ms-button-bg);
+  color: var(--ms-button-text);
 
   font: inherit;
-  color: inherit;
+  white-space: nowrap;
 
   cursor: pointer;
 }
 
+.minesweeper__control-button--flag-mode {
+  min-width: 8.5rem;
+  text-align: center;
+}
+
 .minesweeper__control-button[aria-pressed='true'] {
-  background-color: #d8d8d8;
+  background-color: var(--ms-button-active-bg);
 }
 
 .minesweeper__control-button:disabled {
   cursor: default;
+  opacity: 0.6;
+}
+
+.minesweeper__control-button:focus-visible,
+.minesweeper__cell:focus-visible {
+  outline: 3px solid var(--ms-focus);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .minesweeper__control-button:not(:disabled):hover {
+    background-color: var(--ms-button-hover-bg);
+  }
 }
 
 /* ------------------------------
-   盤面
+   盤面エリア
 ------------------------------ */
 
 .minesweeper__board {
-  --cell-size: clamp(1.75rem, 9.5vw, 2.75rem);
-
   display: grid;
-  grid-template-columns: repeat(9, var(--cell-size));
+  grid-template-columns: repeat(9, 1fr);
   gap: 2px;
 
-  width: fit-content;
+  width: var(--board-width);
+
+  padding: 0.45rem;
+
+  border: 2px solid var(--ms-board-border);
+  border-radius: 0.6rem;
+
+  background-color: var(--ms-board-bg);
 }
 
 /* ------------------------------
@@ -110,37 +246,42 @@
 ------------------------------ */
 
 .minesweeper__cell {
-  width: var(--cell-size);
+  min-width: 0;
   aspect-ratio: 1;
 
   padding: 0;
 
-  border: 1px solid #555;
+  border: 1px solid var(--ms-cell-closed-border);
   border-radius: 0.2rem;
 
-  background-color: #d8d8d8;
+  background-color: var(--ms-cell-closed-bg);
+  color: var(--ms-page-text);
 
-  color: inherit;
-  font: inherit;
-  font-weight: bold;
+  font-family: system-ui, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
 
   cursor: pointer;
 
   box-shadow:
-    inset 1px 1px 0 #fff,
-    inset -1px -1px 0 #999;
+    inset 1px 1px 0 rgb(255 255 255 / 25%),
+    inset -1px -1px 0 rgb(0 0 0 / 25%);
 }
 
-.minesweeper__cell:not(:disabled):hover {
-  background-color: #e2e2e2;
+@media (hover: hover) and (pointer: fine) {
+  .minesweeper__cell:not(:disabled):hover {
+    background-color: var(--ms-cell-closed-hover-bg);
+  }
 }
 
 /* 開いたマス */
 
 .minesweeper__cell--revealed {
-  border-color: #aaa;
+  border-color: var(--ms-cell-open-border);
 
-  background-color: #f7f7f7;
+  background-color: var(--ms-cell-open-bg);
+  color: var(--ms-cell-open-text);
 
   cursor: default;
   box-shadow: none;
@@ -149,22 +290,57 @@
 /* 地雷 */
 
 .minesweeper__cell--mine {
-  background-color: #e8caca;
+  background-color: var(--ms-cell-mine-bg);
 }
 
 /* 旗 */
 
 .minesweeper__cell--flagged {
-  background-color: #e5e5e5;
+  box-shadow:
+    inset 1px 1px 0 rgb(255 255 255 / 25%),
+    inset -1px -1px 0 rgb(0 0 0 / 25%);
 }
 
-/*
-  開いたマスを disabled にしているため、
-  ブラウザ標準の薄い表示を解除する。
-*/
+/* disabledによるブラウザ標準の薄色化を解除 */
+
 .minesweeper__cell:disabled {
-  color: inherit;
   opacity: 1;
+}
+
+/* ------------------------------
+   数字
+------------------------------ */
+
+.minesweeper__cell[data-number='1'] {
+  color: var(--ms-number-1);
+}
+
+.minesweeper__cell[data-number='2'] {
+  color: var(--ms-number-2);
+}
+
+.minesweeper__cell[data-number='3'] {
+  color: var(--ms-number-3);
+}
+
+.minesweeper__cell[data-number='4'] {
+  color: var(--ms-number-4);
+}
+
+.minesweeper__cell[data-number='5'] {
+  color: var(--ms-number-5);
+}
+
+.minesweeper__cell[data-number='6'] {
+  color: var(--ms-number-6);
+}
+
+.minesweeper__cell[data-number='7'] {
+  color: var(--ms-number-7);
+}
+
+.minesweeper__cell[data-number='8'] {
+  color: var(--ms-number-8);
 }
 
 /* ------------------------------
@@ -175,16 +351,41 @@
   .minesweeper {
     grid-template-columns: 1fr;
 
-    width: 100%;
-    padding-inline: 0;
+    /*width: min(100%, 24rem);*/
+    width: min(calc(100% - 2rem), 22rem);
   }
 
   .minesweeper__side-panel {
-    width: min(100%, 24rem);
-    margin-inline: auto;
+    justify-content: flex-start;
+    gap: 0.75rem;
+
+    width: 100%;
+  }
+
+  .minesweeper__scene,
+  .minesweeper__controls,
+  .minesweeper__board {
+    width: 100%;
   }
 
   .minesweeper__board {
-    margin-inline: auto;
+    --board-width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .minesweeper__controls {
+    gap: 0.35rem;
+    padding-inline: 0.45rem;
+
+    font-size: 0.9rem;
+  }
+
+  .minesweeper__control-button {
+    padding-inline: 0.5rem;
+  }
+
+  .minesweeper__cell {
+    font-size: 0.9rem;
   }
 }

@@ -5,12 +5,23 @@ import {
   BOARD_SIZE,
   MINE_COUNT,
   createGame,
-  getFlagCount,
   getRevealedCellCount,
   revealCell,
   toggleFlag,
   type Cell,
 } from './game'
+
+const sceneImages = {
+  start: new URL('./images/progress_start.webp', import.meta.url).href,
+  almost: new URL('./images/progress_almost.webp', import.meta.url).href,
+  fail: new URL('./images/progress_fail.webp', import.meta.url).href,
+  clear: new URL('./images/progress_clear.webp', import.meta.url).href,
+}
+
+for (const src of Object.values(sceneImages)) {
+  const image = new Image()
+  image.src = src
+}
 
 const app = document.querySelector<HTMLDivElement>('#app')
 
@@ -51,13 +62,15 @@ function createScene(): HTMLElement {
   const scene = document.createElement('div')
   scene.className = 'minesweeper__scene'
 
-  const text = document.createElement('p')
-  text.className = 'minesweeper__scene-text'
+  const image = document.createElement('img')
+  image.className = 'minesweeper__scene-image'
 
   if (game.status === 'cleared') {
-    text.textContent = 'クリア！'
+    image.src = sceneImages.clear
+    image.alt = 'クリア'
   } else if (game.status === 'failed') {
-    text.textContent = '失敗'
+    image.src = sceneImages.fail
+    image.alt = '失敗'
   } else {
     const revealedCellCount = getRevealedCellCount(game)
     const safeCellCount = BOARD_SIZE * BOARD_SIZE - MINE_COUNT
@@ -65,17 +78,21 @@ function createScene(): HTMLElement {
     const progress = revealedCellCount / safeCellCount
 
     if (revealedCellCount === 0) {
-      text.textContent = 'ゲーム開始'
+      image.src = sceneImages.start
+      image.alt = 'ゲーム開始'
     } else if (progress < 1 / 3) {
-      text.textContent = '探索中'
+      image.src = sceneImages.start
+      image.alt = '探索中'
     } else if (progress < 2 / 3) {
-      text.textContent = '順調'
+      image.src = sceneImages.almost
+      image.alt = '順調'
     } else {
-      text.textContent = 'あと少し'
+      image.src = sceneImages.almost
+      image.alt = 'あと少し'
     }
   }
 
-  scene.append(text)
+  scene.append(image)
 
   return scene
 }
@@ -84,21 +101,9 @@ function createControls(): HTMLElement {
   const controls = document.createElement('div')
   controls.className = 'minesweeper__controls'
 
-  const status = document.createElement('div')
-  status.className = 'minesweeper__status'
-
   const mineCount = document.createElement('span')
   mineCount.className = 'minesweeper__mine-count'
   mineCount.textContent = `地雷: ${MINE_COUNT}`
-
-  const flagCount = document.createElement('span')
-  flagCount.className = 'minesweeper__flag-count'
-  flagCount.textContent = `旗: ${getFlagCount(game)}`
-
-  status.append(mineCount, flagCount)
-
-  const actions = document.createElement('div')
-  actions.className = 'minesweeper__actions'
 
   const resetButton = document.createElement('button')
   resetButton.type = 'button'
@@ -112,7 +117,8 @@ function createControls(): HTMLElement {
 
   const flagModeButton = document.createElement('button')
   flagModeButton.type = 'button'
-  flagModeButton.className = 'minesweeper__control-button'
+  flagModeButton.className =
+    'minesweeper__control-button minesweeper__control-button--flag-mode'
 
   flagModeButton.textContent = game.flagMode ? '旗モード: ON' : '旗モード: OFF'
 
@@ -125,8 +131,7 @@ function createControls(): HTMLElement {
     render()
   })
 
-  actions.append(resetButton, flagModeButton)
-  controls.append(status, actions)
+  controls.append(mineCount, resetButton, flagModeButton)
 
   return controls
 }
@@ -151,7 +156,7 @@ function createBoard(): HTMLElement {
         button.classList.add('minesweeper__cell--revealed')
 
         if (cell.isMine) {
-          button.textContent = '*'
+          button.textContent = '💣'
 
           button.classList.add('minesweeper__cell--mine')
         } else if (cell.adjacentMines > 0) {
@@ -160,7 +165,7 @@ function createBoard(): HTMLElement {
           button.dataset.number = String(cell.adjacentMines)
         }
       } else if (cell.isFlagged) {
-        button.textContent = '⚑'
+        button.textContent = '🚩'
 
         button.classList.add('minesweeper__cell--flagged')
       }
