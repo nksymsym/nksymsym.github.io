@@ -65,10 +65,6 @@ body {
   gap: 0.25rem;
 }
 
-.game__title,
-.game__description {
-  margin: 0;
-}
 .game__back-link,
 .game__back-link:visited {
   justify-self: start;

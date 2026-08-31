@@ -1,0 +1,120 @@
+:root {
+  --home-bg: #f4f5f7;
+  --home-text: #222222;
+  --home-muted-text: #666666;
+
+  --home-card-bg: #ffffff;
+  --home-card-border: #d9dce1;
+  --home-card-border-hover: #8a929d;
+
+  --home-link: #315f8c;
+  --home-focus: #d28a00;
+}
+
+body {
+  background-color: var(--home-bg);
+  color: var(--home-text);
+}
+
+.home__header {
+  margin-bottom: 2rem;
+}
+
+.home__profile {
+  margin-bottom: 3rem;
+}
+
+.home__name {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.home__social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+
+.home__social-links a,
+.home__social-links a:visited {
+  color: var(--home-link);
+}
+
+.home__social-links a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.home__social-links a:focus-visible {
+  outline: 3px solid var(--home-focus);
+  outline-offset: 3px;
+}
+
+/* ゲーム一覧 */
+
+.games__title {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+
+.games__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+/* ゲームカード */
+
+.game-card,
+.game-card:visited {
+  display: block;
+  overflow: hidden;
+
+  color: inherit;
+  text-decoration: none;
+
+  background-color: var(--home-card-bg);
+  border: 1px solid var(--home-card-border);
+  border-radius: 0.75rem;
+}
+
+.game-card:hover {
+  border-color: var(--home-card-border-hover);
+}
+
+.game-card:focus-visible {
+  outline: 3px solid var(--home-focus);
+  outline-offset: 3px;
+}
+
+.game-card__thumbnail {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.game-card__body {
+  padding: 0.75rem;
+}
+
+.game-card__title {
+  margin: 0 0 0.3rem;
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+
+.game-card__description {
+  margin: 0;
+  color: var(--home-muted-text);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* スマホ */
+
+@media (max-width: 640px) {
+  .games__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+}

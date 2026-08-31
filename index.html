@@ -7,12 +7,30 @@
     <title>しむしむはうす</title>
   </head>
   <body>
-    <main>
-      <h1>しむしむはうす</h1>
-      <p>なんか作って置く</p>
+    <main class="home">
+      <header class="home__header page-header">
+        <h1 class="page-title">しむしむはうす</h1>
+        <p class="page-description">なんか作って置く</p>
+      </header>
 
-      <h2>ゲーム</h2>
-      <p><a href="./games/minesweeper/">狼なんか怖くない</a></p>
+      <section class="games" aria-labelledby="games-title">
+        <h2 id="games-title" class="games__title">ゲーム</h2>
+
+        <div class="games__grid">
+          <a class="game-card" href="./games/minesweeper/">
+            <img
+              class="game-card__thumbnail"
+              src="./src/images/thumbnail_minesweeper.webp"
+              alt=""
+            />
+
+            <div class="game-card__body">
+              <h3 class="game-card__title">狼なんか怖くない</h3>
+              <p class="game-card__description">マインスイーパー</p>
+            </div>
+          </a>
+        </div>
+      </section>
     </main>
     <script type="module" src="./src/main.ts"></script>
   </body>
